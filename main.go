@@ -19,7 +19,7 @@ func main() {
 
 	setUpLogging()
 
-	clientId, clientSecret := funcName()
+	clientId, clientSecret := parseFlags()
 
 	router := mux.NewRouter()
 	client := &http.Client{
@@ -70,7 +70,7 @@ func main() {
 
 }
 
-func funcName() (*string, *string) {
+func parseFlags() (*string, *string) {
 	clientId := flag.String("client_id", "", "OAUTH2 client_id")
 	clientSecret := flag.String("client_secret", "", "OAUTH2 client_secret")
 
@@ -91,4 +91,3 @@ func setUpLogging() {
 	formatter := &log.JSONFormatter{}
 	log.SetFormatter(formatter)
 }
-
