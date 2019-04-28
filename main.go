@@ -13,6 +13,7 @@ import (
 
 type Token struct {
 	AccessToken string `json:"access_token"`
+	IdToken string `json:"id_token"`
 }
 
 func main() {
@@ -60,13 +61,14 @@ func main() {
 			json.NewDecoder(resp.Body).Decode(&token)
 			defer resp.Body.Close()
 			log.WithField("access_token", token.AccessToken).Info("access_token received")
+			log.WithField("id_token", token.IdToken).Info("id_token received")
 
 		} else {
-			log.WithField("status", resp.StatusCode).Error("unexpected status")
+			log.WithField("status", resp.StatusCode).WithField("body", resp.Body).Error("unexpected status")
 		}
 	})
 
-	http.ListenAndServe(":8081", router)
+	log.Error(http.ListenAndServe(":8081", router))
 
 }
 
